@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+
+# Local configuration (user-specific settings)
+config.local.py
+.env
+.env.local
+
+# Test outputs
+/tasks/
+*.output
+
+# User-specific speaker data
+my_speakers.json
+speaker_config.json
+QUICK_START.md
+
+# APK decompilation artifacts
+*.apk
+jam_apk/
+jam_classes.jar
+jam_decompiled/
+jam_source/
+*.dex

@@ -1,0 +1,166 @@
+================================================================================
+JAM WiFi Speaker Pairing Instructions
+================================================================================
+
+OVERVIEW:
+This guide will connect your JAM speaker to your WiFi network.
+The setup works OFFLINE (no internet needed during pairing).
+
+================================================================================
+STEP 1: Put Speaker in Pairing Mode
+================================================================================
+
+1. Press and HOLD the WiFi button on your JAM speaker
+2. Keep holding for 5-10 seconds
+3. Wait for the WiFi LED to start BLINKING rapidly
+4. Speaker is now in pairing mode
+5. Speaker creates a WiFi hotspot named: JAM-XXXX or JAM SYMPHONY_XXXX
+
+Troubleshooting:
+  - If LED doesn't blink: Hold button longer (10-15 seconds)
+  - For factory reset: Hold WiFi button for 20+ seconds
+
+================================================================================
+STEP 2: Connect Your Mac to Speaker's WiFi Hotspot
+================================================================================
+
+1. Click WiFi icon in Mac menu bar
+2. Look for network starting with "JAM" or "HMDX"
+3. Click to connect (NO PASSWORD needed)
+4. Wait for connection (you will LOSE internet - this is normal!)
+5. Your Mac is now directly connected to the speaker
+
+Network should look like:
+  - JAM SYMPHONY_CDD4
+  - JAM-A1B2C3
+  - HMDX_W3211_XXXX
+
+⚠️  IMPORTANT: You will have NO internet during this phase!
+
+================================================================================
+STEP 3: Verify Connection to Speaker
+================================================================================
+
+Run this command to check if speaker is reachable:
+
+    ./venv/bin/python3 check_speaker_hotspot.py
+
+Expected output:
+  ✅ SUCCESS! Connected to speaker
+  Name: JAM SYMPHONY_XXXX
+  MAC: 00:22:6C:XX:XX:XX
+
+If you see errors:
+  ❌ Check you're connected to the JAM hotspot (not your home WiFi)
+  ❌ Make sure speaker's WiFi LED is still blinking
+  ❌ Try disconnecting and reconnecting to the hotspot
+
+================================================================================
+STEP 4: Run Setup Script
+================================================================================
+
+Once the check succeeds, run:
+
+    ./venv/bin/python3 setup.py
+
+The script will:
+  1. Detect the speaker
+  2. Scan for available WiFi networks (from speaker's view)
+  3. Ask for your home WiFi name (SSID)
+  4. Ask for your home WiFi password
+  5. Configure the speaker
+
+Example interaction:
+  Enter WiFi network name (SSID): IoT
+  Enter WiFi password: mypassword123
+  Proceed with configuration? yes
+
+================================================================================
+STEP 5: Reconnect to Your Home WiFi
+================================================================================
+
+After configuration:
+  1. Speaker will disconnect and try to connect to your home WiFi
+  2. Go to Mac WiFi settings
+  3. Reconnect to your home WiFi network (the one you just configured)
+  4. Wait 20-30 seconds for speaker to connect
+
+================================================================================
+STEP 6: Find Speaker's New IP Address
+================================================================================
+
+Option A - Scan network:
+    ./venv/bin/python3 scan_network.py
+
+Option B - Check router:
+    1. Login to router (usually http://192.168.3.1)
+    2. Look for "DHCP Clients" or "Connected Devices"
+    3. Find device named "JAM SYMPHONY_XXXX"
+    4. Note its IP address
+
+Option C - Check ARP:
+    arp -a | grep -i jam
+
+================================================================================
+STEP 7: Test Speaker
+================================================================================
+
+Once you have the IP address, test it:
+
+    ./venv/bin/python3 test_speaker.py <IP_ADDRESS>
+
+Example:
+    ./venv/bin/python3 test_speaker.py 192.168.1.100
+
+If successful, you'll see speaker information and can start controlling it!
+
+================================================================================
+QUICK COMMAND REFERENCE
+================================================================================
+
+1. Put speaker in pairing mode (hold WiFi button)
+2. Connect Mac to JAM hotspot
+3. ./venv/bin/python3 check_speaker_hotspot.py
+4. ./venv/bin/python3 setup.py
+5. Reconnect to home WiFi
+6. ./venv/bin/python3 scan_network.py
+7. ./venv/bin/python3 test_speaker.py <IP>
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+"Cannot reach speaker at 10.10.10.254"
+  → Not connected to speaker's hotspot
+  → Check WiFi settings, must be on JAM-XXXX network
+
+"Configuration sent but speaker doesn't connect"
+  → Check WiFi password is correct (case-sensitive!)
+  → Verify WiFi is 2.4GHz (speaker doesn't support 5GHz)
+  → Check WiFi uses WPA/WPA2 (not WPA3)
+
+"Cannot find speaker after setup"
+  → Wait longer (can take 30-60 seconds)
+  → Check router's device list
+  → Speaker might be on different subnet
+  → Try scanning all networks: scan_192_168_1.py, scan_network.py
+
+"Speaker keeps disconnecting"
+  → Check WiFi signal strength
+  → Move speaker closer to router
+  → Check for 2.4GHz interference
+
+Need to start over?
+  → Factory reset: Hold WiFi button 20+ seconds
+  → Begin again from Step 1
+
+================================================================================
+SUPPORT
+================================================================================
+
+Documentation:
+  - SETUP_GUIDE.md - Detailed setup guide
+  - QUICK_START.md - Quick reference
+  - README.md - API documentation
+
+================================================================================
